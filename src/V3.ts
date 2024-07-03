@@ -18,7 +18,7 @@ import type {
 import md5 from './md5.js';
 import { WebSocketFields } from './snapshot.js';
 import { joinHeaders, splitHeaders } from './splitHeaderUtil.js';
-import { BareTransport, TransferrableResponse } from "@mercuryworkshop/bare-mux";
+import type { BareTransport, TransferrableResponse } from "@mercuryworkshop/bare-mux";
 
 export default class ClientV3 extends Client implements BareTransport {
 	ws: URL;
@@ -52,7 +52,7 @@ export default class ClientV3 extends Client implements BareTransport {
 		onmessage: (data: Blob | ArrayBuffer | string) => void,
 		onclose: (code: number, reason: string) => void,
 		onerror: (error: string) => void,
-	): (data: Blob | ArrayBuffer | string) => void {
+	): [ (data: Blob | ArrayBuffer | string) => void, (code: number, reason: string) => void ] {
 		const ws = new WebSocket(this.ws);
 
 		const cleanup = () => {
@@ -60,7 +60,8 @@ export default class ClientV3 extends Client implements BareTransport {
 			ws.removeEventListener('message', messageListener);
 		};
 
-		const closeListener = () => {
+		const closeListener = (event: CloseEvent) => {
+			onclose(event.code, event.reason)
 			cleanup();
 		};
 
@@ -117,7 +118,7 @@ export default class ClientV3 extends Client implements BareTransport {
 		);
 
 
-		return ws.send.bind(ws);
+		return [ ws.send.bind(ws), ws.close.bind(ws) ]
 	}
 	async request(
 		remote: URL,
