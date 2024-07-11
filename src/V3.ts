@@ -131,6 +131,8 @@ export default class ClientV3 extends Client implements BareTransport {
 			credentials: 'omit',
 			method: method,
 			signal,
+			//@ts-expect-error this exists but isnt typed ig
+			duplex: "half"
 		};
 
 
