@@ -30,9 +30,9 @@ const commonPlugins = () => [
 const configs = [
 	// import
 	{
-		input: 'src/index.ts',
+		input: './src/index.ts',
 		output: {
-			file: `dist/index.js`,
+			file: `dist/index.mjs`,
 			format: 'esm',
 			sourcemap: true,
 			exports: 'named',
@@ -41,9 +41,9 @@ const configs = [
 	},
 	// require
 	{
-		input: 'src/index.ts',
+		input: './src/index.ts',
 		output: {
-			file: `dist/bare.cjs`,
+			file: `dist/index.js`,
 			format: 'umd',
 			name: 'BareMod',
 			sourcemap: true,

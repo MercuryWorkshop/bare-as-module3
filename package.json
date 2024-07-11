@@ -34,17 +34,23 @@
 		"rollup": "^3.23.0",
 		"rollup-plugin-typescript2": "^0.34.1"
 	},
-	"files": [ "dist", "lib" ],
+	"files": [
+		"dist",
+		"lib"
+	],
 	"exports": {
 		".": {
-		  "browser": {
-			"import": "./dist/index.mjs",
-			"require": "./dist/index.cjs"
-		  },
-		  "node": {
-			"require": "./lib/index.cjs",
-			"import": "./lib/index.cjs"
-		  }
+			"browser": {
+				"import": "./dist/index.mjs",
+				"require": "./dist/index.cjs"
+			},
+			"node": {
+				"require": "./lib/index.cjs",
+				"import": "./lib/index.cjs"
+			}
 		}
+	},
+	"dependencies": {
+		"typescript": "^5.5.3"
 	}
 }
