@@ -28,7 +28,8 @@
 function safeAdd(x: number, y: number): number {
 	const lsw = (x & 0xffff) + (y & 0xffff);
 	const msw = (x >> 16) + (y >> 16) + (lsw >> 16);
-	return (msw << 16) | (lsw & 0xffff);
+	
+return (msw << 16) | (lsw & 0xffff);
 }
 
 /**
@@ -252,7 +253,8 @@ function binlMD5(x: number[], len: number): number[] {
 		c = safeAdd(c, oldc);
 		d = safeAdd(d, oldd);
 	}
-	return [a, b, c, d];
+	
+return [a, b, c, d];
 }
 
 /**
@@ -262,12 +264,13 @@ function binlMD5(x: number[], len: number): number[] {
  * @returns MD5 string
  */
 function binl2rstr(input: number[]): string {
-	let output = '';
+	let output = "";
 	const length32 = input.length * 32;
 	for (let i = 0; i < length32; i += 8) {
 		output += String.fromCharCode((input[i >> 5] >>> i % 32) & 0xff);
 	}
-	return output;
+	
+return output;
 }
 
 /**
@@ -287,7 +290,8 @@ function rstr2binl(input: string): number[] {
 	for (let i = 0; i < length8; i += 8) {
 		output[i >> 5]! |= (input.charCodeAt(i / 8) & 0xff) << i % 32;
 	}
-	return <number[]>output;
+	
+return <number[]>output;
 }
 
 /**
@@ -319,7 +323,8 @@ function rstrHMACMD5(key: string, data: string): string {
 		opad[i] = bkey[i] ^ 0x5c5c5c5c;
 	}
 	const hash = binlMD5(ipad.concat(rstr2binl(data)), 512 + data.length * 8);
-	return binl2rstr(binlMD5(opad.concat(hash), 512 + 128));
+	
+return binl2rstr(binlMD5(opad.concat(hash), 512 + 128));
 }
 
 /**
@@ -329,13 +334,14 @@ function rstrHMACMD5(key: string, data: string): string {
  * @returns Hex encoded string
  */
 function rstr2hex(input: string): string {
-	const hexTab = '0123456789abcdef';
-	let output = '';
+	const hexTab = "0123456789abcdef";
+	let output = "";
 	for (let i = 0; i < input.length; i += 1) {
 		const x = input.charCodeAt(i);
 		output += hexTab.charAt((x >>> 4) & 0x0f) + hexTab.charAt(x & 0x0f);
 	}
-	return output;
+	
+return output;
 }
 
 /**
@@ -406,10 +412,12 @@ export default function md5(
 		if (!raw) {
 			return hexMD5(string);
 		}
-		return rawMD5(string);
+		
+return rawMD5(string);
 	}
 	if (!raw) {
 		return hexHMACMD5(key, string);
 	}
-	return rawHMACMD5(key, string);
+	
+return rawHMACMD5(key, string);
 }

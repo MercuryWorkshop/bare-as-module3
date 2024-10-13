@@ -1,4 +1,4 @@
-import type { BareHeaders } from './BareTypes.js';
+import type { BareHeaders } from "./BareTypes.js";
 
 export interface BareResponseHeaders {
 	status: number;
@@ -7,7 +7,7 @@ export interface BareResponseHeaders {
 }
 
 export interface SocketClientToServer {
-	type: 'connect';
+	type: "connect";
 	/**
 	 * Remote to connect to
 	 */
@@ -27,7 +27,7 @@ export interface SocketClientToServer {
 }
 
 export interface SocketServerToClient {
-	type: 'open';
+	type: "open";
 	/**
 	 * The protocl that the remote chose.
 	 */

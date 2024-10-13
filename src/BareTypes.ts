@@ -1,21 +1,21 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 export type BareMethod =
-	| 'GET'
-	| 'POST'
-	| 'DELETE'
-	| 'OPTIONS'
-	| 'PUT'
-	| 'PATCH'
-	| 'UPDATE'
+	| "GET"
+	| "POST"
+	| "DELETE"
+	| "OPTIONS"
+	| "PUT"
+	| "PATCH"
+	| "UPDATE"
 	| string;
 
 export type BareCache =
-	| 'default'
-	| 'no-store'
-	| 'reload'
-	| 'no-cache'
-	| 'force-cache'
-	| 'only-if-cached'
+	| "default"
+	| "no-store"
+	| "reload"
+	| "no-cache"
+	| "force-cache"
+	| "only-if-cached"
 	| string;
 
 export interface BareWebSocketMeta {
@@ -23,8 +23,8 @@ export interface BareWebSocketMeta {
 	setCookies: string[];
 }
 
-export type BareHTTPProtocol = 'blob:' | 'http:' | 'https:' | string;
-export type BareWSProtocol = 'ws:' | 'wss:' | string;
+export type BareHTTPProtocol = "blob:" | "http:" | "https:" | string;
+export type BareWSProtocol = "ws:" | "wss:" | string;
 
 export const maxRedirects = 20;
 
@@ -60,19 +60,19 @@ export interface BareProject {
 }
 
 export type BareLanguage =
-	| 'NodeJS'
-	| 'ServiceWorker'
-	| 'Deno'
-	| 'Java'
-	| 'PHP'
-	| 'Rust'
-	| 'C'
-	| 'C++'
-	| 'C#'
-	| 'Ruby'
-	| 'Go'
-	| 'Crystal'
-	| 'Shell'
+	| "NodeJS"
+	| "ServiceWorker"
+	| "Deno"
+	| "Java"
+	| "PHP"
+	| "Rust"
+	| "C"
+	| "C++"
+	| "C#"
+	| "Ruby"
+	| "Go"
+	| "Crystal"
+	| "Shell"
 	| string;
 
 export interface BareManifest {

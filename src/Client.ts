@@ -4,7 +4,7 @@ import type {
 	BareMethod,
 	BareResponse,
 	BareWebSocketMeta,
-} from './BareTypes.js';
+} from "./BareTypes.js";
 
 export const statusEmpty = [101, 204, 205, 304];
 export const statusRedirect = [301, 302, 303, 307, 308];

@@ -1,4 +1,4 @@
-import { BareError } from './Client';
+import { BareError } from "./Client";
 
 const MAX_HEADER_VALUE = 3072;
 
@@ -11,11 +11,11 @@ const MAX_HEADER_VALUE = 3072;
 export function splitHeaders(headers: Headers): Headers {
 	const output = new Headers(headers);
 
-	if (headers.has('x-bare-headers')) {
-		const value = headers.get('x-bare-headers')!;
+	if (headers.has("x-bare-headers")) {
+		const value = headers.get("x-bare-headers")!;
 
 		if (value.length > MAX_HEADER_VALUE) {
-			output.delete('x-bare-headers');
+			output.delete("x-bare-headers");
 
 			let split = 0;
 
@@ -39,7 +39,7 @@ export function splitHeaders(headers: Headers): Headers {
 export function joinHeaders(headers: Headers): Headers {
 	const output = new Headers(headers);
 
-	const prefix = 'x-bare-headers';
+	const prefix = "x-bare-headers";
 
 	if (headers.has(`${prefix}-0`)) {
 		const join: string[] = [];
@@ -49,11 +49,11 @@ export function joinHeaders(headers: Headers): Headers {
 				continue;
 			}
 
-			if (!value.startsWith(';')) {
+			if (!value.startsWith(";")) {
 				throw new BareError(400, {
-					code: 'INVALID_BARE_HEADER',
+					code: "INVALID_BARE_HEADER",
 					id: `request.headers.${header}`,
-					message: `Value didn't begin with semi-colon.`,
+					message: "Value didn't begin with semi-colon.",
 				});
 			}
 
@@ -64,7 +64,7 @@ export function joinHeaders(headers: Headers): Headers {
 			output.delete(header);
 		}
 
-		output.set(prefix, join.join(''));
+		output.set(prefix, join.join(""));
 	}
 
 	return output;

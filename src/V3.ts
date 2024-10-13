@@ -3,21 +3,21 @@ import type {
 	BareHeaders,
 	BareMethod,
 	BareResponse,
-} from './BareTypes.js';
-import { BareError, Client, statusEmpty } from './Client.js';
+} from "./BareTypes.js";
+import { BareError, Client, statusEmpty } from "./Client.js";
 import type {
 	ReadyStateCallback,
 	MetaCallback,
 	GetRequestHeadersCallback,
-} from './Client.js';
+} from "./Client.js";
 import type {
 	BareResponseHeaders,
 	SocketClientToServer,
 	SocketServerToClient,
-} from './V3Types.js';
-import md5 from './md5.js';
-import { WebSocketFields } from './snapshot.js';
-import { joinHeaders, splitHeaders } from './splitHeaderUtil.js';
+} from "./V3Types.js";
+import md5 from "./md5.js";
+import { WebSocketFields } from "./snapshot.js";
+import { joinHeaders, splitHeaders } from "./splitHeaderUtil.js";
 //@ts-ignore expected
 import type { BareTransport, TransferrableResponse } from "@mercuryworkshop/bare-mux";
 
@@ -34,10 +34,10 @@ export default class ClientV3 extends Client implements BareTransport {
 		this.ws = new URL(this.base);
 		this.http = new URL(this.base);
 
-		if (this.ws.protocol === 'https:') {
-			this.ws.protocol = 'wss:';
+		if (this.ws.protocol === "https:") {
+			this.ws.protocol = "wss:";
 		} else {
-			this.ws.protocol = 'ws:';
+			this.ws.protocol = "ws:";
 		}
 	}
 	ready = true;
@@ -57,27 +57,22 @@ export default class ClientV3 extends Client implements BareTransport {
 		const ws = new WebSocket(this.ws);
 
 		const cleanup = () => {
-			ws.removeEventListener('close', closeListener);
-			ws.removeEventListener('message', messageListener);
-		};
-
-		const closeListener = (event: CloseEvent) => {
-			onclose(event.code, event.reason)
-			cleanup();
+			ws.removeEventListener("close", closeListener);
+			ws.removeEventListener("message", messageListener);
 		};
 
 		const messageListener = (event: MessageEvent) => {
 			cleanup();
 
 			// ws.binaryType is irrelevant when sending text
-			if (typeof event.data !== 'string')
-				throw new TypeError('the first websocket message was not a text frame');
+			if (typeof event.data !== "string")
+				throw new TypeError("the first websocket message was not a text frame");
 
 			const message = JSON.parse(event.data) as SocketServerToClient;
 
 			// finally
-			if (message.type !== 'open')
-				throw new TypeError('message was not of open type');
+			if (message.type !== "open")
+				throw new TypeError("message was not of open type");
 
 			// onMeta({
 			// 	protocol: message.protocol,
@@ -87,32 +82,37 @@ export default class ClientV3 extends Client implements BareTransport {
 
 			onopen(message.protocol);
 
-			// TODO
 			ws.addEventListener("message", (ev) => {
 				onmessage(ev.data);
 			});
+
+			ws.addEventListener("close", (ev) => {
+				onclose(ev.code, ev.reason)
+			});
 		};
 
-		ws.addEventListener('close', closeListener);
-		ws.addEventListener('message', messageListener);
+		const closeListener = (event: CloseEvent) => {
+			onclose(event.code, event.reason)
+			cleanup();
+		};
+
+		ws.addEventListener("message", messageListener);
+		ws.addEventListener("close", closeListener);
 
 		// CONNECTED TO THE BARE SERVER, NOT THE REMOTE
 		ws.addEventListener(
-			'open',
+			"open",
 			(event) => {
-
-				// getRequestHeaders().then((headers:any) =>
 				WebSocketFields.prototype.send.call(
 					ws,
 					JSON.stringify({
-						type: 'connect',
+						type: "connect",
 						remote: url.toString(),
 						protocols,
 						headers: requestHeaders,
 						forwardHeaders: [],
 					} as unknown as SocketClientToServer)
 				)
-				// );
 			},
 			// only block the open event once
 			{ once: true }
@@ -129,7 +129,7 @@ export default class ClientV3 extends Client implements BareTransport {
 		signal: AbortSignal | undefined
 	): Promise<TransferrableResponse> {
 		const options: RequestInit = {
-			credentials: 'omit',
+			credentials: "omit",
 			method: method,
 			signal,
 			//@ts-expect-error this exists but isnt typed ig
@@ -145,24 +145,12 @@ export default class ClientV3 extends Client implements BareTransport {
 		options.headers = this.createBareHeaders(remote, headers);
 
 		const response = await fetch(
-			this.http + '?cache=' + md5(remote.toString()),
+			this.http + "?cache=" + md5(remote.toString()),
 			options
 		);
 
 		const readResponse = await this.readBareResponse(response);
-
-		// const result: Response & Partial<BareResponse> = new Response(
-		// 	statusEmpty.includes(readResponse.status!) ? undefined : response.body,
-		// 	{
-		// 		status: readResponse.status,
-		// 		statusText: readResponse.statusText ?? undefined,
-		// 		headers: new Headers(readResponse.headers as HeadersInit),
-		// 	}
-		// );
-		//
-		// result.rawHeaders = readResponse.headers;
-		// result.rawResponse = response;
-
+		
 		return {
 			body: response.body!,
 			headers: readResponse.headers,
@@ -180,13 +168,13 @@ export default class ClientV3 extends Client implements BareTransport {
 
 		const result: Partial<BareResponseHeaders> = {};
 
-		const xBareStatus = responseHeaders.get('x-bare-status');
+		const xBareStatus = responseHeaders.get("x-bare-status");
 		if (xBareStatus !== null) result.status = parseInt(xBareStatus);
 
-		const xBareStatusText = responseHeaders.get('x-bare-status-text');
+		const xBareStatusText = responseHeaders.get("x-bare-status-text");
 		if (xBareStatusText !== null) result.statusText = xBareStatusText;
 
-		const xBareHeaders = responseHeaders.get('x-bare-headers');
+		const xBareHeaders = responseHeaders.get("x-bare-headers");
 		if (xBareHeaders !== null) result.headers = JSON.parse(xBareHeaders);
 
 		return result as BareResponseHeaders;
@@ -200,19 +188,19 @@ export default class ClientV3 extends Client implements BareTransport {
 	) {
 		const headers = new Headers();
 
-		headers.set('x-bare-url', remote.toString());
-		headers.set('x-bare-headers', JSON.stringify(bareHeaders));
+		headers.set("x-bare-url", remote.toString());
+		headers.set("x-bare-headers", JSON.stringify(bareHeaders));
 
 		for (const header of forwardHeaders) {
-			headers.append('x-bare-forward-headers', header);
+			headers.append("x-bare-forward-headers", header);
 		}
 
 		for (const header of passHeaders) {
-			headers.append('x-bare-pass-headers', header);
+			headers.append("x-bare-pass-headers", header);
 		}
 
 		for (const status of passStatus) {
-			headers.append('x-bare-pass-status', status.toString());
+			headers.append("x-bare-pass-status", status.toString());
 		}
 
 		splitHeaders(headers);

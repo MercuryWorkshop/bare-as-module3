@@ -19,11 +19,11 @@ export function resolvePort(url: URL) {
 	if (url.port) return Number(url.port);
 
 	switch (url.protocol) {
-		case 'ws:':
-		case 'http:':
+		case "ws:":
+		case "http:":
 			return 80;
-		case 'wss:':
-		case 'https:':
+		case "wss:":
+		case "https:":
 			return 443;
 		default:
 			// maybe blob

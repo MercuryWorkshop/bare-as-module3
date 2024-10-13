@@ -1,4 +1,4 @@
-import BareClient from '@tomphttp/bare-client';
+import BareClient from '@mercuryworkshop/bare-asm';
 
 const client = new BareClient('https://uv.holyubofficial.net/');
 
