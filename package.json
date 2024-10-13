@@ -1,6 +1,6 @@
 {
 	"name": "@mercuryworkshop/bare-as-module3",
-	"version": "2.2.2",
+	"version": "2.2.3",
 	"main": "./dist/index.js",
 	"homepage": "https://github.com/MercuryWorkshop/bare-as-module3",
 	"bugs": {
