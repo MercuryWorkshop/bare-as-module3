@@ -18,7 +18,6 @@ import type {
 import md5 from "./md5.js";
 import { WebSocketFields } from "./snapshot.js";
 import { joinHeaders, splitHeaders } from "./splitHeaderUtil.js";
-//@ts-ignore expected
 import type { BareTransport, TransferrableResponse } from "@mercuryworkshop/bare-mux";
 
 export default class ClientV3 extends Client implements BareTransport {
@@ -46,7 +45,6 @@ export default class ClientV3 extends Client implements BareTransport {
 	}
 	connect(
 		url: URL,
-		origin: string,
 		protocols: string[],
 		requestHeaders: BareHeaders,
 		onopen: (protocol: string) => void,

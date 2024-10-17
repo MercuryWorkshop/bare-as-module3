@@ -1,6 +1,6 @@
 {
 	"name": "@mercuryworkshop/bare-as-module3",
-	"version": "2.2.3",
+	"version": "2.2.4",
 	"main": "./dist/index.js",
 	"homepage": "https://github.com/MercuryWorkshop/bare-as-module3",
 	"bugs": {
@@ -28,10 +28,10 @@
 	"license": "LGPL-3.0",
 	"devDependencies": {
 		"@ianvs/prettier-plugin-sort-imports": "^4.3.1",
-		"@mercuryworkshop/bare-mux": "^2.1.2",
+		"@mercuryworkshop/bare-mux": "^2.1.4",
 		"@rollup/plugin-inject": "^5.0.5",
-		"@typescript-eslint/eslint-plugin": "^8.8.1",
-		"@typescript-eslint/parser": "^8.8.1",
+		"@typescript-eslint/eslint-plugin": "^8.9.0",
+		"@typescript-eslint/parser": "^8.9.0",
 		"eslint": "^9.12.0",
 		"prettier": "^3.3.3",
 		"rollup": "^4.24.0",
