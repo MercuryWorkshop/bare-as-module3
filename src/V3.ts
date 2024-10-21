@@ -54,6 +54,10 @@ export default class ClientV3 extends Client implements BareTransport {
 	): [ (data: Blob | ArrayBuffer | string) => void, (code: number, reason: string) => void ] {
 		const ws = new WebSocket(this.ws);
 
+		requestHeaders["Host"] = url.host; 
+		requestHeaders["Upgrade"] = "websocket";
+		requestHeaders["Connection"] = "Upgrade";
+
 		const cleanup = () => {
 			ws.removeEventListener("close", closeListener);
 			ws.removeEventListener("message", messageListener);
@@ -139,7 +143,8 @@ export default class ClientV3 extends Client implements BareTransport {
 			options.body = body;
 		}
 
-
+		if ("host" in headers) headers.host = remote.host;
+		else headers.Host = remote.host;
 		options.headers = this.createBareHeaders(remote, headers);
 
 		const response = await fetch(
