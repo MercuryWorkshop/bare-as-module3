@@ -1,4 +1,3 @@
- 
 export type BareMethod =
 	| "GET"
 	| "POST"

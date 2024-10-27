@@ -1,6 +1,6 @@
-import inject from '@rollup/plugin-inject';
-import { fileURLToPath } from 'node:url';
-import typescript from 'rollup-plugin-typescript2';
+import inject from "@rollup/plugin-inject";
+import { fileURLToPath } from "node:url";
+import typescript from "rollup-plugin-typescript2";
 
 /**
  * @typedef {import('rollup').OutputOptions} OutputOptions
@@ -14,10 +14,10 @@ const commonPlugins = () => [
 	typescript(),
 	inject(
 		Object.fromEntries(
-			['fetch', 'Request', 'Response', 'WebSocket', 'XMLHttpRequest'].map(
+			["fetch", "Request", "Response", "WebSocket", "XMLHttpRequest"].map(
 				(name) => [
 					name,
-					[fileURLToPath(new URL('./src/snapshot.ts', import.meta.url)), name],
+					[fileURLToPath(new URL("./src/snapshot.ts", import.meta.url)), name],
 				]
 			)
 		)
@@ -30,24 +30,24 @@ const commonPlugins = () => [
 const configs = [
 	// import
 	{
-		input: './src/index.ts',
+		input: "./src/index.ts",
 		output: {
 			file: `dist/index.mjs`,
-			format: 'esm',
+			format: "esm",
 			sourcemap: true,
-			exports: 'named',
+			exports: "named",
 		},
 		plugins: commonPlugins(),
 	},
 	// require
 	{
-		input: './src/index.ts',
+		input: "./src/index.ts",
 		output: {
 			file: `dist/index.js`,
-			format: 'umd',
-			name: 'BareMod',
+			format: "umd",
+			name: "BareMod",
 			sourcemap: true,
-			exports: 'auto',
+			exports: "auto",
 		},
 		plugins: commonPlugins(),
 	},

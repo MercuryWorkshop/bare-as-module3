@@ -37,7 +37,7 @@ If you used `.createWebSocket()`, `socket.meta` used to be a promise. Now it's a
 ```js
 const socket = client.createWebSocket(/* ... */);
 // socket.meta.then((meta) => console.log("Got the media", meta));
-socket.addEventListener('meta', (event) => {
+socket.addEventListener("meta", (event) => {
 	console.log(event.meta);
 });
 ```
@@ -55,7 +55,7 @@ The WebSocket extension isn't relevant due to it being very implementation speci
 Here's how you can access the new values:
 
 ```js
-socket.addEventListener('meta', (event) => {
+socket.addEventListener("meta", (event) => {
 	// The following properties are guaranteed.
 	event.meta.protocol; // string
 	event.meta.setCookies; // array of strings
@@ -72,10 +72,10 @@ Use the following code snippet to update the way you import the library:
 
 ```js
 // old way
-import BareClient, { createBareClient } from '@tomphttp/bare-client';
+import BareClient, { createBareClient } from "@tomphttp/bare-client";
 
 // new way
-import { BareClient, createBareClient } from '@tomphttp/bare-client';
+import { BareClient, createBareClient } from "@tomphttp/bare-client";
 ```
 
 ## Order of arguments to `.createWebSocket()` changed

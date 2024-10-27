@@ -18,7 +18,10 @@ import type {
 import md5 from "./md5.js";
 import { WebSocketFields } from "./snapshot.js";
 import { joinHeaders, splitHeaders } from "./splitHeaderUtil.js";
-import type { BareTransport, TransferrableResponse } from "@mercuryworkshop/bare-mux";
+import type {
+	BareTransport,
+	TransferrableResponse,
+} from "@mercuryworkshop/bare-mux";
 
 export default class ClientV3 extends Client implements BareTransport {
 	ws: URL;
@@ -50,11 +53,14 @@ export default class ClientV3 extends Client implements BareTransport {
 		onopen: (protocol: string) => void,
 		onmessage: (data: Blob | ArrayBuffer | string) => void,
 		onclose: (code: number, reason: string) => void,
-		onerror: (error: string) => void,
-	): [ (data: Blob | ArrayBuffer | string) => void, (code: number, reason: string) => void ] {
+		onerror: (error: string) => void
+	): [
+		(data: Blob | ArrayBuffer | string) => void,
+		(code: number, reason: string) => void,
+	] {
 		const ws = new WebSocket(this.ws);
 
-		requestHeaders["Host"] = url.host; 
+		requestHeaders["Host"] = url.host;
 		requestHeaders["Upgrade"] = "websocket";
 		requestHeaders["Connection"] = "Upgrade";
 
@@ -81,7 +87,6 @@ export default class ClientV3 extends Client implements BareTransport {
 			// 	setCookies: message.setCookies,
 			// });
 
-
 			onopen(message.protocol);
 
 			ws.addEventListener("message", (ev) => {
@@ -89,12 +94,12 @@ export default class ClientV3 extends Client implements BareTransport {
 			});
 
 			ws.addEventListener("close", (ev) => {
-				onclose(ev.code, ev.reason)
+				onclose(ev.code, ev.reason);
 			});
 		};
 
 		const closeListener = (event: CloseEvent) => {
-			onclose(event.code, event.reason)
+			onclose(event.code, event.reason);
 			cleanup();
 		};
 
@@ -114,14 +119,13 @@ export default class ClientV3 extends Client implements BareTransport {
 						headers: requestHeaders,
 						forwardHeaders: [],
 					} as unknown as SocketClientToServer)
-				)
+				);
 			},
 			// only block the open event once
 			{ once: true }
 		);
 
-
-		return [ ws.send.bind(ws), ws.close.bind(ws) ]
+		return [ws.send.bind(ws), ws.close.bind(ws)];
 	}
 	async request(
 		remote: URL,
@@ -135,9 +139,8 @@ export default class ClientV3 extends Client implements BareTransport {
 			method: method,
 			signal,
 			//@ts-expect-error this exists but isnt typed ig
-			duplex: "half"
+			duplex: "half",
 		};
-
 
 		if (body !== undefined) {
 			options.body = body;
@@ -153,7 +156,7 @@ export default class ClientV3 extends Client implements BareTransport {
 		);
 
 		const readResponse = await this.readBareResponse(response);
-		
+
 		return {
 			body: response.body!,
 			headers: readResponse.headers,
